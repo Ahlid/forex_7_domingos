@@ -7,7 +7,7 @@ const CHANNEL = process.env.DISCORD_CHANNEL;
 async function sendMessage(msg) {
 
     const channel = await bot.channels.fetch(CHANNEL);
-    await channel.send(msg, 'hi')
+    await channel.send(msg)
 }
 
 async function startBot() {
@@ -15,12 +15,13 @@ async function startBot() {
         bot.login(TOKEN);
 
         bot.on('ready', async () => {
-            sendMessage("Bot Online.")
             resolve(null);
         });
 
         bot.on('message', message => {
-           //logging
+            if (message.content.startsWith('get') && message.content.split(' ')[1]) {
+                message.channel.send("https://finance.yahoo.com/quote/"+message.content.split(' ')[1]);
+            }
         })
     }))
 }

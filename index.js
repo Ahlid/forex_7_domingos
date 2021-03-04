@@ -7,7 +7,13 @@ const symbols = [
     'CHFEUR=X',
     'JMT.LS',
     'ETH-EUR',
-    'AAL'
+    'AAL',
+    'BTC-EUR',
+    'SCP.LS',
+    'DOGE-EUR',
+    'GALP.LS',
+    'EDPR.LS',
+    'EDP.LS'
 ];
 
 
@@ -35,7 +41,7 @@ function getMessageString(info) {
 
 async function start() {
     await discord.startBot()
-    await checkStatus();
+   // await checkStatus();
     setInterval(checkStatus, 60 * 60 * 1000);//every hour
 }
 
