@@ -14,7 +14,7 @@ function getCurrentPrice(symbol) {
             }
 
             console.log(quotes.price)
-            resolve({today: quotes.price.regularMarketPrice, yesterday: quotes.price.regularMarketPreviousClose});
+            resolve({longName:quotes.price.longName, today: quotes.price.regularMarketPrice, yesterday: quotes.price.regularMarketPreviousClose});
         });
     });
 }

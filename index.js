@@ -20,9 +20,10 @@ const symbols = [
 
 async function getChanges(symbol) {
 
-    const {yesterday, today} = await utils.getCurrentPrice(symbol);
+    const {yesterday, today,longName} = await utils.getCurrentPrice(symbol);
 
     return {
+        longName,
         symbol,
         yesterday,
         today
@@ -48,7 +49,7 @@ async function checkStatus() {
 }
 
 function getMessageString(info) {
-    return `${info.symbol} ${info.yesterday} ====> ${info.today}  (${((info.today - info.yesterday) * 100 / info.yesterday).toFixed(2)}%)`
+    return `${info.longName}(${info.symbol}) ${info.yesterday} ====> ${info.today}  (${((info.today - info.yesterday) * 100 / info.yesterday).toFixed(2)}%)`
 }
 
 async function start() {
