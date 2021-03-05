@@ -5,16 +5,16 @@ const discord = require('./discord')
 
 const symbols = [
     'CHFEUR=X',
-    'JMT.LS',
+    //'JMT.LS',
     'ETH-EUR',
-    'AAL',
+   // 'AAL',
     'BTC-EUR',
-    'SCP.LS',
+   // 'SCP.LS',
     'DOGE-EUR',
-    'GALP.LS',
-    'EDPR.LS',
-    'EDP.LS',
-    'NIO'
+   // 'GALP.LS',
+   // 'EDPR.LS',
+  //  'EDP.LS',
+   // 'NIO'
 ];
 
 
@@ -40,11 +40,11 @@ async function checkSingleStatus(symbol) {
 
 async function checkStatus() {
 
-    await discord.sendMessage(`Yesterday vs Current Values in €`);
-
+    const msg = ['Yesterday vs Current Values in €'];
     for (let symbol of symbols) {
-        await discord.sendMessage(getMessageString(await getChanges(symbol)))
+        msg.push(getMessageString(await getChanges(symbol)));
     }
+    await discord.sendMessage(msg.join('\n'))
 
 }
 
@@ -54,7 +54,7 @@ function getMessageString(info) {
 
 async function start() {
     await discord.startBot({checkSingleStatus})
-    // await checkStatus();
+    //await checkStatus();
     setInterval(checkStatus, 60 * 60 * 1000);//every hour
 }
 

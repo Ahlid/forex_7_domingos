@@ -13,7 +13,9 @@ function getCurrentPrice(symbol) {
                 reject(err)
             }
 
-            console.log(quotes.price)
+            if(!quotes || !quotes.price){
+                reject(null)
+            }
             resolve({longName:quotes.price.longName, today: quotes.price.regularMarketPrice, yesterday: quotes.price.regularMarketPreviousClose});
         });
     });
