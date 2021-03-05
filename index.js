@@ -13,15 +13,27 @@ const symbols = [
     'DOGE-EUR',
     'GALP.LS',
     'EDPR.LS',
-    'EDP.LS'
+    'EDP.LS',
+    'NIO'
 ];
 
 
 async function getChanges(symbol) {
+
+    const {yesterday, today} = await utils.getCurrentPrice(symbol);
+
     return {
         symbol,
-        yesterday: await utils.getYesterdayPrice(symbol),
-        today: await utils.getCurrentPrice(symbol)
+        yesterday,
+        today
+    }
+}
+
+async function checkSingleStatus(symbol) {
+    try {
+        await discord.sendMessage(getMessageString(await getChanges(symbol)))
+    } catch (e) {
+        console.log(e)
     }
 }
 
@@ -40,8 +52,8 @@ function getMessageString(info) {
 }
 
 async function start() {
-    await discord.startBot()
-   // await checkStatus();
+    await discord.startBot({checkSingleStatus})
+    // await checkStatus();
     setInterval(checkStatus, 60 * 60 * 1000);//every hour
 }
 

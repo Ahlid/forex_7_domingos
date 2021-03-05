@@ -9,24 +9,17 @@ function getCurrentPrice(symbol) {
             symbol,
             modules: ['price'] // see the docs for the full list
         }, function (err, quotes) {
-            resolve(quotes.price.regularMarketPrice)
+            if (err) {
+                reject(err)
+            }
+
+            console.log(quotes.price)
+            resolve({today: quotes.price.regularMarketPrice, yesterday: quotes.price.regularMarketPreviousClose});
         });
     });
 }
 
-function getYesterdayPrice(symbol) {
-    return new Promise((resolve, reject) => {
-        yahooFinance.historical({
-            symbol,
-            from: (new Date()).toISOString().split('T')[0],
-            to: (new Date()).toISOString().split('T')[0]
-        }, function (err, quotes) {
-            resolve(quotes[0].close)
-        });
-    });
-}
 
 module.exports = {
-    getCurrentPrice,
-    getYesterdayPrice
+    getCurrentPrice
 }
