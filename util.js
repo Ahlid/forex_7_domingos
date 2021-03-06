@@ -16,7 +16,12 @@ function getCurrentPrice(symbol) {
             if(!quotes || !quotes.price){
                 reject(null)
             }
+
+            try {
             resolve({longName:quotes.price.longName, today: quotes.price.regularMarketPrice, yesterday: quotes.price.regularMarketPreviousClose});
+            }catch (e){
+                console.log(e);
+            }
         });
     });
 }

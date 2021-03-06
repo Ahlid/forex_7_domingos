@@ -40,11 +40,15 @@ async function checkSingleStatus(symbol) {
 
 async function checkStatus() {
 
+    try {
     const msg = ['Yesterday vs Current Values in €'];
     for (let symbol of symbols) {
         msg.push(getMessageString(await getChanges(symbol)));
     }
     await discord.sendMessage(msg.join('\n'))
+    }catch (e){
+        console.log(e);
+    }
 
 }
 
@@ -54,7 +58,7 @@ function getMessageString(info) {
 
 async function start() {
     await discord.startBot({checkSingleStatus})
-    //await checkStatus();
+    await checkStatus();
     setInterval(checkStatus, 60 * 60 * 1000);//every hour
 }
 
