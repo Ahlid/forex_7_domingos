@@ -4,17 +4,16 @@ const discord = require('./discord')
 
 
 const symbols = [
-    'CHFEUR=X',
-    //'JMT.LS',
-    'ETH-EUR',
-   // 'AAL',
-    'BTC-EUR',
-   // 'SCP.LS',
-    'DOGE-EUR',
-   // 'GALP.LS',
-   // 'EDPR.LS',
-  //  'EDP.LS',
-   // 'NIO'
+    'CHFEUR=X', 'ETH-EUR','BTC-EUR', 'DOGE-EUR', 'XLM-EUR',
+    'JMT.LS',
+    'AAL',
+    'SCP.LS',
+    'GALP.LS',
+    'EDPR.LS',
+    'EDP.LS',
+    'NIO',
+    'AAPL',
+    'AMZN'
 ];
 
 

@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const stringMath = require('string-math');
 const bot = new Discord.Client();
 const TOKEN = process.env.DISCORD_TOKEN;
 const CHANNEL = process.env.DISCORD_CHANNEL;
@@ -19,8 +20,8 @@ function whoAmI() {
         )
         .setThumbnail('https://i.imgur.com/sFq0wAC.jpg')
         .addFields(
-            { name: 'Crypto', value: 'TO THE MOON!!🚀🚀🚀', inline: true },
-            { name: 'Stonks', value: 'Slow grow...🐌', inline: true }
+            {name: 'Crypto', value: 'TO THE MOON!!🚀🚀🚀', inline: true},
+            {name: 'Stonks', value: 'Slow grow...🐌', inline: true}
         )
         .setImage('https://i.imgur.com/7YNJDVU.gif')
         .setTimestamp()
@@ -30,7 +31,7 @@ function whoAmI() {
         );
 }
 
-async function startBot({ checkSingleStatus }) {
+async function startBot({checkSingleStatus}) {
     return new Promise((resolve, reject) => {
         bot.login(TOKEN);
 
@@ -46,7 +47,14 @@ async function startBot({ checkSingleStatus }) {
             ) {
                 message.channel.send(
                     'https://finance.yahoo.com/quote/' +
-                        message.content.split(' ')[1]
+                    message.content.split(' ')[1]
+                );
+            }
+            if (
+                message.content.startsWith('=')
+            ) {
+                message.channel.send(
+                    stringMath(message.content.substring(1,message.content.length+1))
                 );
             }
             if (
@@ -58,12 +66,12 @@ async function startBot({ checkSingleStatus }) {
             if (message.content.startsWith('whoami')) {
                 message.channel.send(whoAmI());
             }
+
         });
     });
 }
 
 module.exports = {
-    sendInfo,
     sendMessage,
     startBot,
 };
