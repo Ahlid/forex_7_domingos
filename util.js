@@ -13,13 +13,19 @@ function getCurrentPrice(symbol) {
                 reject(err)
             }
 
-            if(!quotes || !quotes.price){
+            if (!quotes || !quotes.price) {
                 reject(null)
             }
 
             try {
-            resolve({longName:quotes.price.longName, today: quotes.price.regularMarketPrice, yesterday: quotes.price.regularMarketPreviousClose});
-            }catch (e){
+                resolve({
+                    ...quotes.price,
+                    longName: quotes.price.longName,
+                    today: quotes.price.regularMarketPrice,
+                    yesterday: quotes.price.regularMarketPreviousClose,
+                    percentage: ((quotes.price.regularMarketPrice - quotes.price.regularMarketPreviousClose) * 100 / quotes.price.regularMarketPreviousClose).toFixed(2)
+                });
+            } catch (e) {
                 console.log(e);
             }
         });

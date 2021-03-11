@@ -4,8 +4,20 @@ const bot = new Discord.Client();
 const TOKEN = process.env.DISCORD_TOKEN;
 const CHANNEL = process.env.DISCORD_CHANNEL;
 
-async function sendMessage(msg) {
-    const channel = await bot.channels.fetch(CHANNEL);
+async function sendMessage(msg, config ={}) {
+
+    const channel = await bot.channels.fetch(config.channel || CHANNEL);
+    let msgObj = null;
+
+    if(config.message_id){
+        msgObj = await  channel.messages.fetch(config.message_id)
+    }
+
+    if(msgObj){
+        return msgObj.edit(msg)
+    }
+
+
     await channel.send(msg);
 }
 
@@ -31,7 +43,7 @@ function whoAmI() {
         );
 }
 
-async function startBot({checkSingleStatus}) {
+async function startBot({checkSingleStatus,checkStatus}) {
     return new Promise((resolve, reject) => {
         bot.login(TOKEN);
 
@@ -41,32 +53,38 @@ async function startBot({checkSingleStatus}) {
         });
 
         bot.on('message', (message) => {
-            if (
-                message.content.startsWith('get') &&
-                message.content.split(' ')[1]
-            ) {
-                message.channel.send(
-                    'https://finance.yahoo.com/quote/' +
+            try {
+                if (
+                    message.content.startsWith('get') &&
                     message.content.split(' ')[1]
-                );
+                ) {
+                    message.channel.send(
+                        'https://finance.yahoo.com/quote/' +
+                        message.content.split(' ')[1]
+                    );
+                }
+                if (
+                    message.content.startsWith('=')
+                ) {
+                    message.channel.send(
+                        stringMath(message.content.substring(1, message.content.length + 1))
+                    );
+                }
+                if (
+                    message.content.startsWith('check') &&
+                    message.content.split(' ')[1]
+                ) {
+                    checkSingleStatus(message.content.split(' ')[1]);
+                }
+                if (message.content.startsWith('whoami')) {
+                    message.channel.send(whoAmI());
+                }
+                if (message.content === ('update')) {
+                   checkStatus()
+                }
+            } catch (e) {
+                console.log(e);
             }
-            if (
-                message.content.startsWith('=')
-            ) {
-                message.channel.send(
-                    stringMath(message.content.substring(1,message.content.length+1))
-                );
-            }
-            if (
-                message.content.startsWith('check') &&
-                message.content.split(' ')[1]
-            ) {
-                checkSingleStatus(message.content.split(' ')[1]);
-            }
-            if (message.content.startsWith('whoami')) {
-                message.channel.send(whoAmI());
-            }
-
         });
     });
 }
