@@ -9,14 +9,15 @@ const symbols = [...crypto, ...stocks];
 
 function addCrypto(symbol) {
     crypto.push(symbol);
-    fs.writeFileSync(
-        'symbols.json',
-        JSON.stringify({ crypto, stocks }, null, 2)
-    );
+    updateSymbols();
 }
 
 function addStock(symbol) {
     stock.push(symbol);
+    updateSymbols();
+}
+
+function updateSymbols() {
     fs.writeFileSync(
         'symbols.json',
         JSON.stringify({ crypto, stocks }, null, 2)
