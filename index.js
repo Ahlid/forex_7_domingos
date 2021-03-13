@@ -6,9 +6,23 @@ const fs = require('fs');
 
 require('./binanceCrawler')
 
+const CRYPTO = true;
+const STOCKS = false
 
 const {crypto, stocks} = JSON.parse(fs.readFileSync('symbols.json'));
-const symbols = [...crypto, ...stocks];
+let symbols = []
+setSymbols()
+
+function setSymbols() {
+    symbols = []
+
+    if (CRYPTO) {
+        symbols = symbols.concat(crypto)
+    }
+    if (STOCKS) {
+        symbols = symbols.concat(stocks)
+    }
+}
 
 function addCrypto(symbol) {
     crypto.push(symbol);
@@ -25,6 +39,8 @@ function updateSymbols() {
         'symbols.json',
         JSON.stringify({crypto, stocks}, null, 2)
     );
+
+    setSymbols();
 }
 
 async function getChanges(symbol) {
