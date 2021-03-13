@@ -1,0 +1,21 @@
+{
+  "crypto": [
+    "CHFEUR=X",
+    "ETH-EUR",
+    "BTC-EUR",
+    "DOGE-EUR",
+    "XLM-EUR",
+    "ADA-EUR",
+    "XRP-EUR",
+    "XTZ-EUR",
+    "ZRX-EUR"
+  ],
+  "stocks": [
+    "JMT.LS",
+    "AAL",
+    "EDPR.LS",
+    "NIO",
+    "AAPL",
+    "AMZN"
+  ]
+}
