@@ -3,15 +3,24 @@ const utils = require('./util');
 const discord = require('./discord')
 const QuickChart = require('quickchart-js');
 
+require('./binanceCrawler')
+
 
 const symbols = [
-    'CHFEUR=X', 'ETH-EUR', 'BTC-EUR', 'DOGE-EUR', 'XLM-EUR', 'ADA-EUR',
+    'ETH-EUR', 'BTC-EUR', 'DOGE-EUR', 'XLM-EUR', 'ADA-EUR',
+    'XRP-EUR','XTZ-EUR','ZRX-EUR'
+
+    /*
     'JMT.LS',
     'AAL',
     'EDPR.LS',
     'NIO',
-    'AAPL',
-    'AMZN'
+    'GE',
+    'WMT',
+    'TSLA',
+    'CHFEUR=X',
+    */
+
 ];
 
 
@@ -30,10 +39,10 @@ async function checkSingleStatus(symbol) {
 }
 
 async function checkStatusEdit() {
-    await checkStatus(true)
+    await checkStatus(true, true)
 }
 
-async function checkStatus(edit = false) {
+async function checkStatus(edit = false, graph=false) {
 
     try {
         const title = 'Yesterday vs Current Values in €';
@@ -93,7 +102,8 @@ async function checkStatus(edit = false) {
             })
         } else {
             await discord.sendMessage({embed: exampleEmbed});
-            await discord.sendMessage(await myChart.getShortUrl());
+            if(graph)
+                await discord.sendMessage(await myChart.getShortUrl());
 
         }
     } catch (e) {
@@ -109,8 +119,8 @@ function getMessageString(info) {
 
 async function start() {
     await discord.startBot({checkSingleStatus, checkStatus})
-    setInterval(checkStatusEdit, 5 * 60 * 1000);//every 5min
-    setInterval(checkStatus, 3 * 60 * 60 * 1000);//every 3h
+    setInterval(checkStatusEdit, 1 * 60 * 1000);//every 5min
+    setInterval(checkStatus, 1 * 60 * 60 * 1000);//every 1h
 }
 
 start()

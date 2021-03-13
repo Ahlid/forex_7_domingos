@@ -80,7 +80,7 @@ async function startBot({checkSingleStatus,checkStatus}) {
                     message.channel.send(whoAmI());
                 }
                 if (message.content === ('update')) {
-                   checkStatus()
+                   checkStatus(true)
                 }
             } catch (e) {
                 console.log(e);
